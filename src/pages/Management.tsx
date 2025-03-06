@@ -118,7 +118,10 @@ const Management = () => {
                                 <>
                                     <div className="product-card-content">
                                         <p>#{product.IdProd}</p>
-                                        <img src={product.Imagem || "/src/assets/ApaixonadosPorPizza.png"} alt={product.NomeProd} />
+                                        <img
+                                            src={product.Imagem ? `/src/assets/Pizzas/${product.Imagem}` : "/src/assets/ApaixonadosPorPizza.png"}
+                                            alt={product.NomeProd}
+                                        />
                                         <p className="form-group-title-input">{product.NomeProd}</p>
                                         <p>{product.Descricao}</p>
                                         <p>R$ {product.PcVenda.toFixed(2)}</p>
