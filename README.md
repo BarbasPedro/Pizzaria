@@ -22,12 +22,12 @@ cd Pizzaria-frontend
 ```
 
 ### 2. Instale as dependências
+```
 bash
-Copy
 npm install
 # ou
 yarn install
-
+```
 ### 3. Configure a API
 Crie um arquivo .env na raiz do projeto com a URL do backend:
 
@@ -36,12 +36,13 @@ Copy
 VITE_API_URL=http://localhost:5000
 
 ### 4. Execute o servidor de desenvolvimento
+```
 bash
-Copy
 npm run dev
 # ou
 yarn dev
 Acesse: http://localhost:5173
+```
 
 ## 📦 Scripts Disponíveis
 Comando	Descrição
@@ -72,20 +73,21 @@ Tela	Descrição
 Faça um fork do projeto
 
 Crie uma branch:
+```
 bash
-Copy
 git checkout -b feat/nova-feature
+```
 
 Commit suas alterações:
+```
 bash
-Copy
 git commit -m "Adiciona nova funcionalidade"
-
+```
 Envie para o repositório:
-bash
-Copy
+```bash
 git push origin feat/nova-feature
 Abra um Pull Request
+```
 
 ## 📄 Licença
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
@@ -98,7 +100,4 @@ GitHub: @BarbasPedro
 Email: seu.email@example.com
 
 Feito com React!
-
-Copy
-
 ---
