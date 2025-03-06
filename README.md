@@ -1,54 +1,118 @@
-# React + TypeScript + Vite
+# 🍕 Pizzaria - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend da aplicação de gerenciamento de uma pizzaria, desenvolvido com **React** e integrado ao [backend](https://github.com/BarbasPedro/Pizzaria-backend).
+**Funcionalidades:** Listagem de produtos, cadastro, edição, exclusão e interface responsiva.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Pré-requisitos
 
-## Expanding the ESLint configuration
+- Node.js 16+
+- NPM 8+ ou Yarn 1.22+
+- Conexão com o [backend da aplicação](https://github.com/BarbasPedro/Pizzaria-backend)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## ⚙️ Configuração Local
+
+### 1. Clone o repositório
+```bash
+git clone https://github.com/BarbasPedro/Pizzaria-frontend.git
+cd Pizzaria-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Instale as dependências
+bash
+Copy
+npm install
+# ou
+yarn install
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. Configure a API
+Crie um arquivo .env na raiz do projeto com a URL do backend:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+env
+Copy
+VITE_API_URL=http://localhost:5000
+
+### 4. Execute o servidor de desenvolvimento
+bash
+Copy
+npm run dev
+# ou
+yarn dev
+Acesse: http://localhost:5173
+
+## 📦 Scripts Disponíveis
+Comando	Descrição
+npm run dev	Inicia o servidor de desenvolvimento
+npm run build	Gera a versão de produção
+npm run lint	Verifica erros de código
+npm run preview	Pré-visualiza a build de produção
+
+## 🛠 Estrutura do Projeto
+Copy
+src/
+├── assets/           # Imagens e recursos estáticos
+├── components/       # Componentes reutilizáveis
+├── pages/            # Páginas da aplicação
+├── services/         # Integração com a API
+├── styles/           # Estilos globais e temas
+├── App.tsx           # Componente principal
+└── main.tsx          # Ponto de entrada
+
+## 🎨 Layout das Telas
+Tela	Descrição
+/	Listagem de produtos
+/cadastro	Formulário de cadastro
+/editar/:id	Edição de produtos
+/gerenciamento	Painel administrativo
+
+## 🤝 Como Contribuir
+Faça um fork do projeto
+
+Crie uma branch:
+bash
+Copy
+git checkout -b feat/nova-feature
+
+Commit suas alterações:
+bash
+Copy
+git commit -m "Adiciona nova funcionalidade"
+
+Envie para o repositório:
+bash
+Copy
+git push origin feat/nova-feature
+Abra um Pull Request
+
+## 📄 Licença
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
+
+## 📧 Contato
+Pedro Barbas
+
+GitHub: @BarbasPedro
+
+Email: seu.email@example.com
+
+Feito com React!
+
+Copy
+
+---
+
+### Como usar:
+1. Crie um arquivo `README.md` na raiz do projeto frontend
+2. Copie e cole todo o conteúdo acima
+3. Personalize:
+   - Altere `Pizzaria-frontend` para o nome real do repositório
+   - Atualize `seu.email@example.com` com seu contato real
+   - Adicione screenshots ou gifs nas seções de layout se necessário
+4. Commit e envie:
+```bash
+git add README.md
+git commit -m "Adiciona documentação do frontend"
+git push origin main
 ```
