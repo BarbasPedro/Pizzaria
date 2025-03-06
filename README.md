@@ -102,17 +102,3 @@ Feito com React!
 Copy
 
 ---
-
-### Como usar:
-1. Crie um arquivo `README.md` na raiz do projeto frontend
-2. Copie e cole todo o conteúdo acima
-3. Personalize:
-   - Altere `Pizzaria-frontend` para o nome real do repositório
-   - Atualize `seu.email@example.com` com seu contato real
-   - Adicione screenshots ou gifs nas seções de layout se necessário
-4. Commit e envie:
-```bash
-git add README.md
-git commit -m "Adiciona documentação do frontend"
-git push origin main
-```
