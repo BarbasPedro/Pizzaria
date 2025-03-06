@@ -2,10 +2,12 @@
 
 Frontend da aplicação de gerenciamento de uma pizzaria, desenvolvido com **React** e integrado ao [backend](https://github.com/BarbasPedro/Pizzaria-backend).
 
-## ✨ Funcionalidades
+## ✨ Funcionalidades Atuais
 - Listagem de produtos
-- Cadastro de novos produtos
 - Edição de produtos
+
+## 🔜 Funcionalidades Futuras
+- Cadastro de novos produtos
 - Exclusão de produtos
 - Interface responsiva
 
@@ -81,9 +83,7 @@ src/
 | Tela         | Descrição                |
 |-------------|--------------------------|
 | `/`         | Listagem de produtos      |
-| `/cadastro` | Formulário de cadastro   |
 | `/editar/:id` | Edição de produtos      |
-| `/gerenciamento` | Painel administrativo |
 
 ---
 
@@ -114,6 +114,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 ## 📧 Contato
 Pedro Barbas  
 GitHub: [@BarbasPedro](https://github.com/BarbasPedro)  
+Email: seu.email@example.com  
 
-Feito com React!
+Feito com ❤️ e React!
 
