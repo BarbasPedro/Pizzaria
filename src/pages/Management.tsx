@@ -1,50 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
+import EditForm from "../components/ProductEditForm";
 import "../styles/Management.css";
 
 type Product = {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-}
+    IdProd: number;
+    NoGrupo: string;
+    NomeProd: string;
+    PcVenda: number;
+    Imagem: string;
+    Descricao: string;
+};
 
 const Management = () => {
-  // Estado para armazenar a lista de produtos
-    const [productData, setProductData] = useState([
-        {
-            id: 1,
-            name: "Frango com Catupiry",
-            description: "Frango desfiado com catupiry",
-            price: "R$ 35,00",
-            image: "/src/assets/Pizzas/pizza-frango-catupiry.png",
-        },
-        {
-            id: 2,
-            name: "Calabresa com Cebola",
-            description: "Calabresa acompanhado de cebola",
-            price: "R$ 35,00",
-            image: "/src/assets/Pizzas/pizza-calabresa-cebola.png",
-        },
-        {
-            id: 3,
-            name: "Muçarela com Tomate",
-            description: "Muçarela com tomate e oregano",
-            price: "R$ 35,00",
-            image: "/src/assets/Pizzas/pizza-muçarela.png",
-        },
-        {
-            id: 4,
-            name: "Chocolate e Banana",
-            description: "Chocolate ao leite e banana",
-            price: "R$ 35,00",
-            image: "/src/assets/Pizzas/pizza-chocolate-banana.png",
-        },
-    ]);
+    const [productData, setProductData] = useState<Product[]>([]);
+    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Estado para controlar qual produto está sendo editado
-    const [editingProduct, setEditingProduct] = useState(null);
+    // Função para buscar os produtos da API
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/produtos");
+            if (!response.ok) {
+                throw new Error(`Erro ao buscar produtos: ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (!Array.isArray(data)) {
+                throw new Error("Dados recebidos não são uma lista de produtos.");
+            }
+            setProductData(data);
+        } catch (error) {
+            console.error("Erro:", error);
+            setError("Falha ao carregar os produtos. Tente novamente mais tarde.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Busca os produtos ao carregar o componente
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     // Função para iniciar a edição de um produto
     const handleEdit = (product: Product) => {
@@ -52,91 +50,87 @@ const Management = () => {
     };
 
     // Função para salvar as alterações
-    const handleSave = (updatedProduct) => {
-        setProductData((prevData) =>
-        prevData.map((product) =>
-            product.id === updatedProduct.id ? updatedProduct : product
-        )
-        );
-        setEditingProduct(null); // Finaliza a edição
+    const handleSave = async (updatedProduct: Product) => {
+        try {
+            // Prepara os dados para enviar ao backend
+            const dataToSend = {
+                NomeProd: updatedProduct.NomeProd,
+                PcVenda: updatedProduct.PcVenda, // Já é um número
+                Descricao: updatedProduct.Descricao,
+                Imagem: updatedProduct.Imagem,
+            };
+
+            const response = await fetch(
+                `http://127.0.0.1:5000/produtos/${updatedProduct.IdProd}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(dataToSend), // Envia apenas os campos necessários
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Erro ao atualizar produto");
+            }
+
+            // Atualiza a lista de produtos localmente (sem precisar recarregar tudo)
+            setProductData((prevData) =>
+                prevData.map((product) =>
+                    product.IdProd === updatedProduct.IdProd ? updatedProduct : product
+                )
+            );
+
+            setEditingProduct(null); // Finaliza a edição
+        } catch (error) {
+            console.error("Erro:", error);
+            setError("Falha ao atualizar o produto. Tente novamente mais tarde.");
+        }
     };
+
+    if (loading) {
+        return <div className="loading">Carregando...</div>;
+    }
+
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
 
     return (
         <>
-        <Header />
-        <Banner />
-        <div className="product-management-container">
-            <h1>Lista de Produtos</h1>
+            <Header />
+            <Banner />
+            <div className="product-management-container">
+                <h1>Lista de Produtos</h1>
 
-            {/* Lista de produtos */}
-            <div className="product-list">
-            {productData.map((product) => (
-                <div key={product.id} className="product-card">
-                {editingProduct?.id === product.id ? (
-                    <EditForm
-                        product={product}
-                        onSave={handleSave}
-                        onCancel={() => setEditingProduct(null)}
-                    />
-                    ) : (
-                    <>
-                        <div className="product-card-content">
-                            <p>#{product.id}</p>
-                            <img src={product.image} alt={product.name} />
-                            <p className="form-group-title-input">{product.name}</p>
-                            <p>{product.description}</p>
-                            <p>{product.price}</p>
-                            <button onClick={() => handleEdit(product)}>Editar</button>
+                {/* Lista de produtos */}
+                <div className="product-list">
+                    {productData.map((product) => (
+                        <div key={product.IdProd} className="product-card">
+                            {editingProduct?.IdProd === product.IdProd ? (
+                                <EditForm
+                                    product={product}
+                                    onSave={handleSave}
+                                    onCancel={() => setEditingProduct(null)}
+                                />
+                            ) : (
+                                <>
+                                    <div className="product-card-content">
+                                        <p>#{product.IdProd}</p>
+                                        <img src={product.Imagem || "/src/assets/ApaixonadosPorPizza.png"} alt={product.NomeProd} />
+                                        <p className="form-group-title-input">{product.NomeProd}</p>
+                                        <p>{product.Descricao}</p>
+                                        <p>R$ {product.PcVenda.toFixed(2)}</p>
+                                        <button onClick={() => handleEdit(product)}>Editar</button>
+                                    </div>
+                                </>
+                            )}
                         </div>
-                    </>
-                )}
+                    ))}
                 </div>
-            ))}
             </div>
-        </div>
         </>
-    );
-};
-
-// Componente para o formulário de edição
-const EditForm = ({ product, onSave, onCancel }) => {
-    const [name, setName] = useState(product.name);
-    const [description, setDescription] = useState(product.description);
-    const [price, setPrice] = useState(product.price);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSave({ ...product, name, description, price });
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <p>#{product.id}</p>
-                <img src={product.image} alt={product.name} />
-                <input
-                    type="text"
-                    value={name}
-                    className="form-group-title-input"
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <label>Preço:</label>
-                <input
-                    type="text"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                />
-                <button type="submit">Salvar Alterações</button>
-                <button type="button" onClick={onCancel}>
-                    Cancelar
-                </button>
-            </div>
-        </form>
     );
 };
 

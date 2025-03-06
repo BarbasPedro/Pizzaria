@@ -1,22 +1,67 @@
-import Card from "./Card"
-import Pizza2 from "../assets/Pizzas/pizza-frango-catupiry.png"
-import Pizza1 from "../assets/Pizzas/pizza-calabresa-cebola.png"
-import Pizza3 from "../assets/Pizzas/pizza-muçarela.png"
-import Pizza4 from "../assets/Pizzas/pizza-chocolate-banana.png"
-import '../styles/Products.css'
+import Card from "./Card";
+import "../styles/Products.css";
+import { useState, useEffect } from "react";
+
+type Product = {
+    IdProd: number;
+    NoGrupo: string;
+    NomeProd: string;
+    PcVenda: number;
+    Imagem: string;
+    Descricao: string;
+};
 
 const Products = () => {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Função para buscar os produtos da API
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/produtos");
+            if (!response.ok) {
+                throw new Error("Erro ao buscar produtos");
+            }
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            console.error("Erro:", error);
+            setError("Falha ao carregar os produtos. Tente novamente mais tarde.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Busca os produtos ao carregar o componente
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div className="products-container">
-            <h1>Mais pedidas</h1>
+            <h1>BEST SELLERS</h1>
             <div className="products-list">
-                <Card name="Frango com Catupiry" image={Pizza1} description="Frango desfiado com catupiry" price="R$ 35,00" />
-                <Card name="Calabresa com Cebola" image={Pizza2} description="Calabresa acompanhado de cebola" price="R$ 35,00" />
-                <Card name="Muçarela com Tomate" image={Pizza3} description="Muçarela com tomate e oregano" price="R$ 35,00" />
-                <Card name="Chocolate e Banana" image={Pizza4} description="Chocolate ao leite e banana" price="R$ 35,00" />
+                {products.map((product) => (
+                    <Card
+                        key={product.IdProd}
+                        name={product.NomeProd || "Indisponível"} // Fallback para nome
+                        image={product.Imagem || "ApaixonadosPorPizza.png"} // Fallback para imagem
+                        description={product.Descricao?.trim() || "Indisponível"} // Fallback para descrição
+                        price={`R$ ${product.PcVenda?.toFixed(2) || "Indisponível"}`} // Fallback para preço
+                    />
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Products;

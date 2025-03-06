@@ -11,7 +11,7 @@ const Card = ({ name, image, description, price }: CardProps) => {
     return (
         <div className="card-container">
             <h1>{name}</h1>
-            <img src={image} alt={name} />
+            <img src={`/src/assets/Pizzas/${image}`} alt={name} />
             <p>{description}</p>
             <p>{price}</p>
         </div>
