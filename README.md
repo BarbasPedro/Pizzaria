@@ -114,7 +114,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 ## 📧 Contato
 Pedro Barbas  
 GitHub: [@BarbasPedro](https://github.com/BarbasPedro)  
-Email: seu.email@example.com  
 
-Feito com ❤️ e React!
+Feito com React!
 
